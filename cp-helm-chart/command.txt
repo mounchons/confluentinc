@@ -1,0 +1,7 @@
+
+helm repo add cp-helm-charts https://leonardoterrao.github.io/cp-helm-charts/
+
+helm install my-cp-helm-charts cp-helm-charts/cp-helm-charts --version 0.6.1
+
+ helm uninstall my-cp-helm-charts
+ 
