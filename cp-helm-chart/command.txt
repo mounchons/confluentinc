@@ -5,3 +5,4 @@ helm install my-cp-helm-charts cp-helm-charts/cp-helm-charts --version 0.6.1
 
  helm uninstall my-cp-helm-charts
  
+ helm install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --version 0.40.0 --namespace dev --create-namespace
