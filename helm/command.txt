@@ -1,0 +1,5 @@
+https://github.com/confluentinc/confluent-kubernetes-examples/tree/master/quickstart-deploy
+
+
+https://www.youtube.com/watch?v=3UUGrBK0BIQ
+

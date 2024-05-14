@@ -1,0 +1,16 @@
+https://172.31.0.175:8443
+https://54.254.115.175:8443/
+oCwTGaf9rDl7TmgG
+
+export KUBECONFIG=$(pwd)/kubeconfig.yaml
+
+helm upgrade -i dev-longhorn . -f values.yaml -n longhorn-system --create-namespace
+
+
+helm pull confluentinc/confluent-for-kubernetes \
+  --untar --untardir .
+
+
+  
+# helm upgrade --install my-zookeeper ./charts/cp-zookeeper --namespace dev --create-namespace
+
