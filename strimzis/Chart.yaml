@@ -1,0 +1,8 @@
+apiVersion: v1
+appVersion: 2.8.2
+description: A Helm chart to deploy kaffka for Kubernetes
+keywords:
+- Kafka Cluster
+
+name: kafka-kubernetes
+version: 0.921.20

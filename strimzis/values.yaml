@@ -1,0 +1,45 @@
+kafka:
+  # Define Kafka brokers
+  image:
+    repository: confluentinc/cp-kafka
+    tag: 7.6.0
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        class: longhorn
+        size: 1Gi
+        deleteClaim: false
+
+zookeeper:
+  # Define Zookeeper nodes
+  image:
+    repository: confluentinc/cp-zookeeper
+    tag: 7.6.0
+  storage:
+    type: persistent-claim
+    class: longhorn
+    size: 1Gi
+    deleteClaim: false
+
+kafkaConnect:
+  # Define Kafka Connect deployment
+  enabled: true
+  image:
+    repository: confluentinc/cp-kafka-connect
+    tag: 7.6.0
+
+schemaRegistry:
+  # Define Schema Registry deployment
+  enabled: true
+  image:
+    repository: confluentinc/cp-schema-registry
+    tag: 7.6.0
+
+# Ensure you have the Strimzi Cluster Operator installed
+# You may need to add or modify other configurations like resources, node selectors, etc., based on your environment needs.
+# helm upgrade --install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator -f values.yaml --namespace dev --create-namespace
+
+
+# helm uninstall my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --namespace dev
