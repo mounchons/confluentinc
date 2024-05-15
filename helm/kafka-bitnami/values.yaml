@@ -1,0 +1,115 @@
+
+broker:
+  replicaCount: 3
+  persistence:
+  #   enabled: true
+  #   existingClaim: longhorn
+  #   accessModes:
+  #     - ReadWriteOnce
+    size: 1Gi
+
+controller:
+  replicaCount: 0
+
+kraft:
+  enabled: false
+
+zookeeper:
+  enabled: true
+  replicaCount: 3
+  persistence:
+  #   enabled: true
+  #   existingClaim: longhorn
+  #   accessModes:
+  #     - ReadWriteOnce
+   size: 1Gi
+
+listeners:
+  client:
+    protocol: PLAINTEXT
+
+  interbroker:
+    protocol: PLAINTEXT
+
+  external:
+    protocol: PLAINTEXT
+
+externalAccess:
+  enabled: true
+  broker:
+    service:
+      type: NodePort
+      nodePorts:
+        - 30066
+        - 30067
+        - 30068
+      externalIPs:
+        - 172.31.0.175
+        - 172.31.0.175
+        - 172.31.0.175
+
+# zookeeper:
+#   enabled: true
+#   replicas: 3
+#   auth:
+#     clientUser: "zk-client"
+#     clientPassword: "zk-client-password"
+#     serverUsers:
+#       - "zk-server"
+#     serverPasswords:
+#       - "zk-server-password"
+#   persistence:
+#     enabled: true
+#     storageClass: "nfs"
+#     accessModes:
+#       - ReadWriteMany
+#     size: 100Mi
+#   resources:
+#     limits:
+#       memory: 512Mi
+#       cpu: 500m
+#     requests:
+#       memory: 256Mi
+#       cpu: 250m
+
+# kafka:
+#   replicas: 3
+#   auth:
+#     clientProtocol: tls
+#     interBrokerProtocol: tls
+#     tls:
+#       enabled: true
+#       existingSecret: kafka-tls-secret # Ensure you have a Kubernetes secret with your TLS certificates
+#   persistence:
+#     enabled: true
+#     storageClass: "nfs"
+#     accessModes:
+#       - ReadWriteMany
+#     size: 100Mi
+#   externalAccess:
+#     enabled: true
+#     service:
+#       type: NodePort
+#     autoDiscovery:
+#       enabled: true
+#   resources:
+#     limits:
+#       memory: 1024Mi
+#       cpu: 1000m
+#     requests:
+#       memory: 512Mi
+#       cpu: 500m
+#   livenessProbe:
+#     enabled: true
+#     initialDelaySeconds: 60
+#     periodSeconds: 10
+#   readinessProbe:
+#     enabled: true
+#     initialDelaySeconds: 60
+#     periodSeconds: 10
+
+# metrics:
+#   kafka:
+#     enabled: true
+#     serviceMonitor:
+#       enabled: true

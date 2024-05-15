@@ -14,3 +14,5 @@ helm pull confluentinc/confluent-for-kubernetes \
   
 # helm upgrade --install my-zookeeper ./charts/cp-zookeeper --namespace dev --create-namespace
 
+
+helm uninstall kafka bitnami/kafka --namespace dev 
