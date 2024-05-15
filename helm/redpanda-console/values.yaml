@@ -1,0 +1,56 @@
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 9090
+  nodePort: 30001
+  # -- Override the value in `console.config.server.listenPort` if not `nil`
+  targetPort: 9090
+
+console:
+  config:
+    kafka:
+      brokers:
+        - kafka-broker-0.kafka-broker-headless.dev.svc.cluster.local:9092
+        - kafka-broker-1.kafka-broker-headless.dev.svc.cluster.local:9092
+        - kafka-broker-2.kafka-broker-headless.dev.svc.cluster.local:9092
+      schemaRegistry:
+        enabled: true
+        urls:
+          - "http://schema-registry-svc:30092"
+    connect:
+      enabled: false
+      # clusters:
+      #   - name: connect-local
+      #     url: "http://connect-svc:8083"
+      #     tls:
+      #       enabled: false
+      # connectTimeout: "15s"
+      # readTimeout: "60s"
+      # requestTimeout: "6s"
+
+
+# https://docs.redpanda.com/current/manage/kubernetes/k-configure-helm-chart/#configure-redpanda-console
+# https://github.com/redpanda-data/helm-charts/blob/main/charts/console/values.yaml
+
+# https://artifacthub.io/packages/helm/redpanda-data/console
+# helm upgrade --install redpanda-console redpanda/redpanda --namespace dev --create-namespace --values console-enable-admin-api.yaml --reuse-values
+
+# Install cert-manager
+# helm repo add jetstack https://charts.jetstack.io
+# helm repo update
+
+# helm repo add redpanda https://charts.redpanda.com
+
+# helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.10.0 --set installCRDs=true
+# kubectl get pods --namespace cert-manager
+
+# Install RedPanda
+# helm upgrade --install redpanda-console redpanda-data/console --namespace dev --create-namespace -f values.yaml
+# helm uninstall redpanda-console --namespace dev
+
+# kubectl get all --namespace nes-dev
+
+# kubectl delete pvc <pvc-name> --namespace nes-dev
+# kubectl delete configmap redpanda-console --namespace nes-dev
+# kubectl delete service redpanda-console --namespace nes-dev

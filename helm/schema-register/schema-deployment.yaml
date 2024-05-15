@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-registry
+  namespace: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: schema-registry
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+    spec:
+      containers:
+      - name: schema-registry
+        image: confluentinc/cp-schema-registry:7.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          value: "kafka-broker-0.kafka-broker-headless.dev.svc.cluster.local:9092,kafka-broker-1.kafka-broker-headless.dev.svc.cluster.local:9092,kafka-broker-2.kafka-broker-headless.dev.svc.cluster.local:9092"
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value:  "http://0.0.0.0:8081,http://0.0.0.0:30092"
+        - name: SCHEMA_REGISTRY_MASTER_ELIGIBILITY
+          value: "true"
+        - name: SCHEMA_REGISTRY_HEAP_OPTS
+          value: "-Xms512M -Xmx512M"
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema-registry-svc
+  namespace: dev
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+      nodePort: 30092
+    - name: https
+      port: 8443
+      targetPort: 8443
+      nodePort: 30443
+  selector:
+    app: schema-registry
+
+# kubectl apply -f schema-deployment.yaml -n dev
+# kubectl logs -f schema-registry-646f867bfb-ndnbz -n dev
+
+
+
+# kubectl delete -f schema-deployment.yaml -n dev
+
+# kubectl delete deployment schema-deployment -n dev
+# kubectl delete deployment schema-registry -n dev
